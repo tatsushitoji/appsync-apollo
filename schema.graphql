@@ -1,0 +1,14 @@
+schema {
+  query:Query
+}
+
+type Query {
+  getTodos: [Todo]
+}
+
+type Todo {
+  id: ID!
+  title: String
+  created_at: Time
+  completed: Boolean 
+}
