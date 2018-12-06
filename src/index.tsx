@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import 'antd/dist/antd.css';
+
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import { ApolloProvider } from 'react-apollo';
 import { Rehydrated } from 'aws-appsync-react';
