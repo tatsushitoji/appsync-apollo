@@ -9,14 +9,14 @@ import 'antd/dist/antd.css';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import { ApolloProvider } from 'react-apollo';
 import { Rehydrated } from 'aws-appsync-react';
-import { appSyncConfig } from './env';
+import appSyncConfig from './aws-exports';
 
 const client = new AWSAppSyncClient({
-  url: appSyncConfig.url,
-  region: appSyncConfig.region,
+  url: appSyncConfig['aws_appsync_graphqlEndpoint'],
+  region: appSyncConfig['aws_project_region'],
   auth: {
-    type: appSyncConfig.auth.type as AUTH_TYPE,
-    apiKey: appSyncConfig.auth.apiKey,
+    type: appSyncConfig['aws_appsync_authenticationType'] as AUTH_TYPE,
+    apiKey: appSyncConfig['aws_appsync_apiKey'],
   },
 });
 
