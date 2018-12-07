@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import { Layout, Input, Button, List } from 'antd';
 
 import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo';
+import { Query } from 'react-apollo';
+import { listSimpleTodos } from './graphql/queries';
+import { ListSimpleTodosQuery } from './API';
 
-const App = (props: any) => (
+interface TodoItem {
+  id: string;
+  title: string;
+  created_at: string;
+  completed: boolean;
+}
+
+const App = () => (
   <div className="App">
     <Layout style={{ alignItems: 'center', display: 'flex', height: '100vh' }}>
       <h1>TODO</h1>
@@ -22,62 +31,46 @@ const App = (props: any) => (
           </Button>
         </Layout>
         <Layout>
-          <List
-            className="App-todos"
-            size="large"
-            bordered
-            dataSource={props.todos}
-            // tslint:disable-next-line
-            renderItem={(todo: any) => (
-              <List.Item>
-                <div
-                  style={{
-                    textAlign: 'left',
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  {todo.title}
-                  <Button
-                    size="small"
-                    type={todo.completed ? 'primary' : 'default'}
-                    shape="circle"
-                    icon="check"
+          <Query<ListSimpleTodosQuery, {}> query={gql(listSimpleTodos)}>
+            {({ data, loading, error }) => {
+              if (error || loading) {
+                return <p>{error ? `Error! ${error}` : 'loading...'}</p>;
+              }
+              if (data && data.listSimpleTodos)
+                return (
+                  <List
+                    size="large"
+                    bordered
+                    dataSource={data.listSimpleTodos.items}
+                    // tslint:disable-next-line
+                    renderItem={(item: TodoItem) => (
+                      <List.Item>
+                        <div
+                          style={{
+                            textAlign: 'left',
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          {item.title}
+                          <Button
+                            size="small"
+                            type={item.completed ? 'primary' : 'default'}
+                            shape="circle"
+                            icon="check"
+                          />
+                        </div>
+                      </List.Item>
+                    )}
                   />
-                </div>
-              </List.Item>
-            )}
-          />
+                );
+            }}
+          </Query>
         </Layout>
       </Layout>
     </Layout>
   </div>
 );
 
-const ListTodos = gql`
-  query getTodolist {
-    listSimpleTodos {
-      items {
-        id
-        title
-        created_at
-        completed
-      }
-    }
-  }
-`;
-
-export default compose(
-  graphql(ListTodos, {
-    options: {
-      fetchPolicy: 'cache-and-network',
-    },
-    props: props => ({
-      todos:
-        props.data && (props.data as any).listSimpleTodos
-          ? props.data && (props.data as any).listSimpleTodos.items
-          : [],
-    }),
-  }),
-)(App);
+export default App;
