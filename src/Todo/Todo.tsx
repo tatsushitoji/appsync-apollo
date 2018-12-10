@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Layout } from 'antd';
+import { Layout, Tabs } from 'antd';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import { listTodos } from '../graphql/queries';
@@ -41,7 +41,16 @@ export const Todo = () => (
               return <p>{error ? `Error! ${error}` : 'loading...'}</p>;
             }
             if (data) {
-              return <TodoList listTodos={data.listTodos!} />;
+              return (
+                <Tabs defaultActiveKey="1">
+                  <Tabs.TabPane tab="DOING" key="1" forceRender>
+                    <TodoList listTodos={data.listTodos!} isDone={false} />
+                  </Tabs.TabPane>
+                  <Tabs.TabPane tab="DONE" key="2" forceRender>
+                    <TodoList listTodos={data.listTodos!} isDone />
+                  </Tabs.TabPane>
+                </Tabs>
+              );
             }
           }}
         </Query>
