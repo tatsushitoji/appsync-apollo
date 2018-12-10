@@ -31,7 +31,10 @@ export const Todo = () => (
         </Mutation>
       </Layout>
       <Layout>
-        <Query<ListTodosQuery, {}> query={gql(listTodos)}>
+        <Query<ListTodosQuery, {}>
+          query={gql(listTodos)}
+          fetchPolicy="cache-and-network"
+        >
           {({ data, loading, error }) => {
             if (error || loading) {
               return <p>{error ? `Error! ${error}` : 'loading...'}</p>;
