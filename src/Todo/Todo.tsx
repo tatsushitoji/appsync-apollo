@@ -6,6 +6,7 @@ import { listTodos } from '../graphql/queries';
 import { createTodo } from '../graphql/mutations';
 import {
   ListTodosQuery,
+  ListTodosQueryVariables,
   CreateTodoMutation,
   CreateTodoMutationVariables,
 } from '../API';
@@ -31,7 +32,7 @@ export const Todo = () => (
         </Mutation>
       </Layout>
       <Layout>
-        <Query<ListTodosQuery, {}>
+        <Query<ListTodosQuery, ListTodosQueryVariables>
           query={gql(listTodos)}
           fetchPolicy="cache-and-network"
         >
