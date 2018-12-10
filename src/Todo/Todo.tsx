@@ -40,8 +40,8 @@ export const Todo = () => (
             if (error || loading) {
               return <p>{error ? `Error! ${error}` : 'loading...'}</p>;
             }
-            if (data && data.listTodos) {
-              return <TodoList listTodos={data.listTodos} />;
+            if (data) {
+              return <TodoList listTodos={data.listTodos!} />;
             }
           }}
         </Query>
