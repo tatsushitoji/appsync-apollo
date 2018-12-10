@@ -45,7 +45,6 @@ export const TodoListItem: React.SFC<TodoListItemProps> = ({
         <div>
           <Mutation<UpdateTodoMutation, UpdateTodoMutationVariables>
             mutation={gql(updateTodo)}
-            refetchQueries={[{ query: gql(listTodos) }]}
           >
             {(updateTodo, { data }) => (
               <Button
