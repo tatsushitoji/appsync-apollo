@@ -47,15 +47,18 @@ export const TodoListItem: React.SFC<TodoListItemProps> = ({
             mutation={gql(updateTodo)}
             refetchQueries={[{ query: gql(listTodos) }]}
           >
-            {(updateTodo, { data }) => (
-              <Button
-                size="small"
-                type={completed ? 'primary' : 'default'}
-                icon="check"
-                style={{ marginRight: '0.5rem' }}
-                onClick={onUpdateCompleted(updateTodo, { id, completed })}
-              />
-            )}
+            {(updateTodo, { loading }) => {
+              return (
+                <Button
+                  size="small"
+                  type={completed ? 'primary' : 'default'}
+                  icon="check"
+                  style={{ marginRight: '0.5rem' }}
+                  loading={loading}
+                  onClick={onUpdateCompleted(updateTodo, { id, completed })}
+                />
+              );
+            }}
           </Mutation>
           {title}
         </div>
@@ -65,12 +68,13 @@ export const TodoListItem: React.SFC<TodoListItemProps> = ({
             mutation={gql(deleteTodo)}
             refetchQueries={[{ query: gql(listTodos) }]}
           >
-            {(deleteTodo, { data }) => (
+            {(deleteTodo, { loading }) => (
               <Button
                 size="small"
                 type="default"
                 shape="circle"
                 icon="delete"
+                loading={loading}
                 onClick={onDelete(deleteTodo, { id })}
               />
             )}
