@@ -7,6 +7,10 @@ export interface TodoListItemProps {
   completed: boolean;
 }
 
-export interface TodoListProps {
+export type TodoListProps = {
   listTodos: NonNullable<ListTodosQuery['listTodos']>;
-}
+};
+
+// export type TodoListProps {
+//   listTodos: NonNullable<NonNullableListTodos['items']>;
+// }
