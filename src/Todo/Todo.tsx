@@ -1,17 +1,13 @@
 import * as React from 'react';
 import { Layout, Tabs } from 'antd';
 import gql from 'graphql-tag';
-import { Query, Mutation } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { listTodos } from '../graphql/queries';
-import { createTodo } from '../graphql/mutations';
-import {
-  ListTodosQuery,
-  ListTodosQueryVariables,
-  CreateTodoMutation,
-  CreateTodoMutationVariables,
-} from '../API';
+import { ListTodosQuery, ListTodosQueryVariables } from '../API';
 
 import { TodoForm, TodoList } from '.';
+
+export const REFETCH_LIST_TODOS_QUERY = gql(listTodos);
 
 export const Todo = () => (
   <Layout style={{ alignItems: 'center', display: 'flex', minHeight: '100vh' }}>
@@ -24,12 +20,7 @@ export const Todo = () => (
       }}
     >
       <Layout style={{ flexDirection: 'row', marginBottom: '1rem' }}>
-        <Mutation<CreateTodoMutation, CreateTodoMutationVariables>
-          mutation={gql(createTodo)}
-          refetchQueries={[{ query: gql(listTodos) }]}
-        >
-          {(createTodo, { data }) => <TodoForm createTodo={createTodo} />}
-        </Mutation>
+        <TodoForm />
       </Layout>
       <Layout>
         <Query<ListTodosQuery, ListTodosQueryVariables>
@@ -43,10 +34,10 @@ export const Todo = () => (
             if (data) {
               return (
                 <Tabs defaultActiveKey="1">
-                  <Tabs.TabPane tab="DOING" key="1" forceRender>
+                  <Tabs.TabPane tab="DOING" key="1">
                     <TodoList listTodos={data.listTodos!} isDone={false} />
                   </Tabs.TabPane>
-                  <Tabs.TabPane tab="DONE" key="2" forceRender>
+                  <Tabs.TabPane tab="DONE" key="2">
                     <TodoList listTodos={data.listTodos!} isDone />
                   </Tabs.TabPane>
                 </Tabs>
