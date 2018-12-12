@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { List } from 'antd';
-import gql from 'graphql-tag';
-import { updateTodo, deleteTodo } from '../graphql/mutations';
 import {
   TodoListUpdateButton,
   TodoListDeleteButton,
