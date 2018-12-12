@@ -7,7 +7,7 @@ import { ListTodosQuery, ListTodosQueryVariables } from '../API';
 
 import { TodoForm, TodoList } from '.';
 
-export const REFETCH_LIST_TODOS_QUERY = gql(listTodos);
+export const GET_LIST_TODOS_QUERY = gql(listTodos);
 
 export const Todo = () => (
   <Layout style={{ alignItems: 'center', display: 'flex', minHeight: '100vh' }}>
@@ -24,7 +24,7 @@ export const Todo = () => (
       </Layout>
       <Layout>
         <Query<ListTodosQuery, ListTodosQueryVariables>
-          query={gql(listTodos)}
+          query={GET_LIST_TODOS_QUERY}
           fetchPolicy="cache-and-network"
         >
           {({ data, loading, error }) => {

@@ -5,7 +5,7 @@ import { Layout, Input, Form, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { createTodo } from '../graphql/mutations';
 import { CreateTodoMutation, CreateTodoMutationVariables } from '../API';
-import { REFETCH_LIST_TODOS_QUERY } from '.';
+import { GET_LIST_TODOS_QUERY } from '.';
 
 interface TodoFormProps extends FormComponentProps {
   createTodo: MutationFn<CreateTodoMutation, CreateTodoMutationVariables>;
@@ -18,7 +18,7 @@ const TodoFormComponent: React.SFC<FormComponentProps> = ({
 }) => (
   <Mutation<CreateTodoMutation, CreateTodoMutationVariables>
     mutation={CREATE_TODO_MUTATION}
-    refetchQueries={[{ query: REFETCH_LIST_TODOS_QUERY }]}
+    refetchQueries={[{ query: GET_LIST_TODOS_QUERY }]}
   >
     {(createTodo, { data }) => {
       // console.log(data);

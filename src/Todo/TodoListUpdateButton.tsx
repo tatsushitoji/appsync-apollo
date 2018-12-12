@@ -8,7 +8,7 @@ import {
   UpdateTodoMutationVariables,
   UpdateTodoInput,
 } from '../API';
-import { REFETCH_LIST_TODOS_QUERY } from '.';
+import { GET_LIST_TODOS_QUERY } from '.';
 
 const UPDATE_TODO_MUTATION = gql(updateTodo);
 
@@ -20,7 +20,7 @@ interface Props {
 export const TodoListUpdateButton: React.SFC<Props> = ({ id, completed }) => (
   <Mutation<UpdateTodoMutation, UpdateTodoMutationVariables>
     mutation={UPDATE_TODO_MUTATION}
-    refetchQueries={[{ query: REFETCH_LIST_TODOS_QUERY }]}
+    refetchQueries={[{ query: GET_LIST_TODOS_QUERY }]}
   >
     {(updateTodo, { loading }) => {
       const onUpdateCompleted = ({ id, completed }: UpdateTodoInput) => (

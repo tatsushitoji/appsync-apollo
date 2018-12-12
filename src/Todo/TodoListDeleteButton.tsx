@@ -8,7 +8,7 @@ import {
   DeleteTodoMutationVariables,
   DeleteTodoInput,
 } from '../API';
-import { REFETCH_LIST_TODOS_QUERY } from '.';
+import { GET_LIST_TODOS_QUERY } from '.';
 
 const DELETE_TODO_MUTATION = gql(deleteTodo);
 
@@ -19,7 +19,7 @@ interface Props {
 export const TodoListDeleteButton: React.SFC<Props> = ({ id }) => (
   <Mutation<DeleteTodoMutation, DeleteTodoMutationVariables>
     mutation={DELETE_TODO_MUTATION}
-    refetchQueries={[{ query: REFETCH_LIST_TODOS_QUERY }]}
+    refetchQueries={[{ query: GET_LIST_TODOS_QUERY }]}
   >
     {(deleteTodo, { loading }) => {
       const onDelete = ({ id }: DeleteTodoInput) => (
