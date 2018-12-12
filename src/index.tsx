@@ -21,7 +21,7 @@ const client = new AWSAppSyncClient({
 });
 
 ReactDOM.render(
-  // TODO: avoid any
+  // TODO: avoid any ref: https://github.com/awslabs/aws-mobile-appsync-sdk-js/issues/166
   <ApolloProvider client={client as any}>
     <Rehydrated>
       <App />

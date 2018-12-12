@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, List } from 'antd';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { Mutation, MutationFn } from 'react-apollo';
 import { updateTodo, deleteTodo } from '../graphql/mutations';
 import { listTodos } from '../graphql/queries';
 import {
@@ -20,15 +20,16 @@ export const TodoListItem: React.SFC<TodoListItemProps> = ({
   completed,
 }) => {
   const onUpdateCompleted = (
-    updateTodo: any,
+    updateTodo: MutationFn<UpdateTodoMutation, UpdateTodoMutationVariables>,
     { id, completed }: UpdateTodoInput,
   ) => (e: React.SyntheticEvent) => {
     e.preventDefault();
     updateTodo({ variables: { input: { id, completed: !completed } } });
   };
-  const onDelete = (deleteTodo: any, { id }: DeleteTodoInput) => (
-    e: React.SyntheticEvent,
-  ) => {
+  const onDelete = (
+    deleteTodo: MutationFn<DeleteTodoMutation, DeleteTodoMutationVariables>,
+    { id }: DeleteTodoInput,
+  ) => (e: React.SyntheticEvent) => {
     e.preventDefault();
     deleteTodo({ variables: { input: { id } } });
   };
