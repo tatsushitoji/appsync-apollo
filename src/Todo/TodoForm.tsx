@@ -1,15 +1,11 @@
 import * as React from 'react';
 import gql from 'graphql-tag';
-import { Mutation, MutationFn } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { Layout, Input, Form, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { createTodo } from '../graphql/mutations';
 import { CreateTodoMutation, CreateTodoMutationVariables } from '../API';
 import { GET_LIST_TODOS_QUERY } from '.';
-
-interface TodoFormProps extends FormComponentProps {
-  createTodo: MutationFn<CreateTodoMutation, CreateTodoMutationVariables>;
-}
 
 export const CREATE_TODO_MUTATION = gql(createTodo);
 
