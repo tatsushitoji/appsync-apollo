@@ -11,7 +11,7 @@ interface TodoFormProps extends FormComponentProps {
   createTodo: MutationFn<CreateTodoMutation, CreateTodoMutationVariables>;
 }
 
-const CREATE_TODO_MUTATION = gql(createTodo);
+export const CREATE_TODO_MUTATION = gql(createTodo);
 
 const TodoFormComponent: React.SFC<FormComponentProps> = ({
   form: { getFieldDecorator, getFieldValue, resetFields },
@@ -27,7 +27,7 @@ const TodoFormComponent: React.SFC<FormComponentProps> = ({
         createTodo({
           variables: {
             input: {
-              title: getFieldValue('title'),
+              title: getFieldValue('title').trim(),
               created: `${Date.now()}`,
               completed: false,
             },
@@ -47,6 +47,7 @@ const TodoFormComponent: React.SFC<FormComponentProps> = ({
               type="primary"
               htmlType="submit"
               style={{ marginLeft: '.5rem' }}
+              disabled={!getFieldValue('title')}
             >
               SUBMIT
             </Button>
