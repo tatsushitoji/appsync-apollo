@@ -1,10 +1,18 @@
 import * as React from 'react';
 import { Layout, Tabs } from 'antd';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
+import { FormComponentProps } from 'antd/lib/form';
 import { listTodos } from '../graphql/queries';
-import { ListTodosQuery, ListTodosQueryVariables } from '../API';
+import {
+  CreateTodoMutation,
+  CreateTodoMutationVariables,
+  ListTodosQuery,
+  ListTodosQueryVariables,
+} from '../API';
+import { createTodo } from '../graphql/mutations';
 
+export const CREATE_TODO_MUTATION = gql(createTodo);
 import { TodoForm, TodoList } from '.';
 
 export const GET_LIST_TODOS_QUERY = gql(listTodos);
@@ -20,7 +28,31 @@ export const Todo = () => (
       }}
     >
       <Layout style={{ flexDirection: 'row', marginBottom: '1rem' }}>
-        <TodoForm />
+        <Mutation<CreateTodoMutation, CreateTodoMutationVariables>
+          mutation={CREATE_TODO_MUTATION}
+          refetchQueries={[{ query: GET_LIST_TODOS_QUERY }]}
+        >
+          {(createTodo, { data }) => {
+            // console.log(data);
+            const onSubmit = ({
+              getFieldValue,
+              resetFields,
+            }: FormComponentProps['form']) => (e: React.FormEvent) => {
+              e.preventDefault();
+              createTodo({
+                variables: {
+                  input: {
+                    title: getFieldValue('title').trim(),
+                    created: `${Date.now()}`,
+                    completed: false,
+                  },
+                },
+              });
+              resetFields(['title']);
+            };
+            return <TodoForm onSubmit={onSubmit} />;
+          }}
+        </Mutation>
       </Layout>
       <Layout>
         <Query<ListTodosQuery, ListTodosQueryVariables>
