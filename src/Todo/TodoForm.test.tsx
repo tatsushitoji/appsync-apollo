@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Mutation } from 'react-apollo';
 import { MockedProvider } from 'react-apollo/test-utils';
 import { mount } from 'enzyme';
-import { spy } from 'sinon';
 
 import { TodoForm, CREATE_TODO_MUTATION } from '.';
 
