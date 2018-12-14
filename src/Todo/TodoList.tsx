@@ -10,13 +10,14 @@ export const TodoList: React.SFC<Props> = ({
   listTodos: { items },
   isDone,
 }) => {
-  const doingItems = items!.filter(item => !item!.completed);
-  const doneItems = items!.filter(item => item!.completed);
+  const dataSource = isDone
+    ? items!.filter(item => item!.completed)
+    : items!.filter(item => !item!.completed);
   return (
     <List
       size="large"
       bordered
-      dataSource={isDone ? doneItems : doingItems}
+      dataSource={dataSource}
       renderItem={TodoListItem}
     />
   );
