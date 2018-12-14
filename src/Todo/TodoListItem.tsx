@@ -16,8 +16,8 @@ import {
   GET_LIST_TODOS_QUERY,
 } from '.';
 
-const UPDATE_TODO_MUTATION = gql(updateTodo);
-const DELETE_TODO_MUTATION = gql(deleteTodo);
+export const UPDATE_TODO_MUTATION = gql(updateTodo);
+export const DELETE_TODO_MUTATION = gql(deleteTodo);
 
 export const TodoListItem: React.SFC<TodoListItemProps> = ({
   id,
