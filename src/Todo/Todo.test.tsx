@@ -12,7 +12,6 @@ test('should render Doing Todo List', async () => {
     result: {
       data: {
         listTodos: {
-          __typename: 'TodoConnection',
           items: [
             {
               id: 'id1',
