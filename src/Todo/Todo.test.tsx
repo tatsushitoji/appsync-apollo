@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 
 import { Todo, GET_LIST_TODOS_QUERY } from '.';
 
-it('should render Todo List', async () => {
+test('should render Doing Todo List', async () => {
   const TodoMock = {
     request: {
       query: GET_LIST_TODOS_QUERY,
@@ -16,9 +16,15 @@ it('should render Todo List', async () => {
           items: [
             {
               id: 'id1',
-              title: 'todo1',
+              title: 'todooo1',
               completed: false,
               created: '1544594653658',
+            },
+            {
+              id: 'id2',
+              title: 'todooo2',
+              completed: false,
+              created: '1544594653650',
             },
           ],
           nextToken: '',
@@ -33,7 +39,71 @@ it('should render Todo List', async () => {
     </MockedProvider>,
   );
 
-  new Promise(resolve => resolve); // wait for response
+  await new Promise(resolve => setTimeout(resolve, 0)); // wait for response
   wrapper.update(); // apply re-render
-  expect(wrapper.find('.ant-list-item')).toBeTruthy();
+  expect(
+    wrapper
+      .find('.ant-spin-container')
+      .at(0)
+      .children(),
+  ).toHaveLength(2);
+  expect(
+    wrapper
+      .find('.ant-spin-container')
+      .at(1)
+      .children(),
+  ).toHaveLength(0);
+});
+
+test('should render No data', async () => {
+  const TodoMock = {
+    request: {
+      query: GET_LIST_TODOS_QUERY,
+    },
+    result: {
+      data: {
+        listTodos: {
+          __typename: 'TodoConnection',
+          items: [
+            {
+              id: 'id1',
+              title: 'todooo1',
+              completed: true,
+              created: '1544594653658',
+            },
+            {
+              id: 'id2',
+              title: 'todooo2',
+              completed: true,
+              created: '1544594653650',
+            },
+          ],
+          nextToken: '',
+        },
+      },
+    },
+  };
+
+  const wrapper = mount(
+    <MockedProvider mocks={[TodoMock]} addTypename={false}>
+      <Todo />
+    </MockedProvider>,
+  );
+
+  await new Promise(resolve => setTimeout(resolve, 0)); // wait for response
+  wrapper.update(); // apply re-render
+
+  expect(
+    wrapper
+      .find('.ant-spin-container')
+      .at(0)
+      .children()
+      .text(),
+  ).toEqual('No data');
+  expect(
+    wrapper
+      .find('.ant-spin-container')
+      .at(1)
+      .exists(),
+  ).toBeFalsy();
 });
