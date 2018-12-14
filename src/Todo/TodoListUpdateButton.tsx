@@ -13,34 +13,22 @@ import { GET_LIST_TODOS_QUERY } from '.';
 const UPDATE_TODO_MUTATION = gql(updateTodo);
 
 interface Props {
-  id: string;
   completed: boolean;
+  loading: boolean;
+  onClick: (_: React.SyntheticEvent) => void;
 }
 
-export const TodoListUpdateButton: React.SFC<Props> = ({ id, completed }) => (
-  <Mutation<UpdateTodoMutation, UpdateTodoMutationVariables>
-    mutation={UPDATE_TODO_MUTATION}
-    refetchQueries={[{ query: GET_LIST_TODOS_QUERY }]}
-  >
-    {(updateTodo, { loading }) => {
-      const onUpdateCompleted = ({ id, completed }: UpdateTodoInput) => (
-        e: React.SyntheticEvent,
-      ) => {
-        e.preventDefault();
-        updateTodo({
-          variables: { input: { id, completed: !completed } },
-        });
-      };
-      return (
-        <Button
-          size="small"
-          type={completed ? 'primary' : 'default'}
-          icon="check"
-          style={{ marginRight: '0.5rem' }}
-          loading={loading}
-          onClick={onUpdateCompleted({ id, completed })}
-        />
-      );
-    }}
-  </Mutation>
+export const TodoListUpdateButton: React.SFC<Props> = ({
+  completed,
+  loading,
+  onClick,
+}) => (
+  <Button
+    size="small"
+    type={completed ? 'primary' : 'default'}
+    icon="check"
+    style={{ marginRight: '0.5rem' }}
+    loading={loading}
+    onClick={onClick}
+  />
 );
